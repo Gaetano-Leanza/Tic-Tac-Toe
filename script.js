@@ -1,11 +1,42 @@
-document.getElementById("contactForm").addEventListener("submit", function (e) {
-  e.preventDefault(); // Formular nicht wirklich abschicken
+let fields = [
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null
+];
 
-  // Spinner anzeigen
-  document.getElementById("spinner").style.display = "inline-block";
+let currentPlayer = 'X';
 
-  // Nach kurzer Zeit weiterleiten
-  setTimeout(function () {
-    window.location.href = "send_mail.html"; // Weiterleitung zur Bestätigungsseite
-  }, 1000); // 1 Sekunde simuliertes "Senden"
-});
+function render() {
+  const container = document.getElementById('Container');
+  let html = '<table>';
+
+  for (let row = 0; row < 3; row++) {
+    html += '<tr>';
+    for (let col = 0; col < 3; col++) {
+      const index = row * 3 + col;
+      const value = fields[index] ? fields[index] : '';
+      html += `<td onclick="handleClick(${index})">${value}</td>`;
+    }
+    html += '</tr>';
+  }
+
+  html += '</table>';
+  container.innerHTML = html;
+}
+
+function handleClick(index) {
+  if (!fields[index]) {
+    fields[index] = currentPlayer;
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    render();
+  }
+}
+
+// Initialer Aufruf
+render();
